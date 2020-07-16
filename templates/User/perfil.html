@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{Layout/main}">
+<head>
+
+</head>
+
+    <div layout:fragment="content" th:class="p-5" >
+
+       <!-- <p class="alert alert-danger" ID="lblError" ></p>
+
+
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+           <p th:text="${successMessage}">></p>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div> -->
+            <!-- usuarioPerfil -->
+         <div class="">
+
+             <form action="#" method="post"
+                   th:object="${user}"
+                   th:action="@{/users/perfil/update}"
+             >
+             <div class="row">
+
+                 <div class="col-6">
+
+                     <div class="form-group  mb-3">
+                         <label for="userName">Nombre</label>
+                         <div class="input-group">
+                             <div class="input-group-prepend">
+                                 <div class="input-group-text"><i class="fas fa-user-edit"></i></div>
+                             </div>
+                             <input th:field="*{name}" class="form-control" id="userName" >
+                         </div>
+                     </div>
+
+
+                     <div class="form-group  mb-3">
+                         <label for="userSurname">Apellido</label>
+                         <div class="input-group">
+                             <div class="input-group-prepend">
+                                 <div class="input-group-text"><i class="fas fa-users"></i></div>
+                             </div>
+                             <input th:field="*{surnames}" class="form-control" id="userSurname">
+                         </div>
+
+                     </div>
+
+
+                     <div class="form-group  mb-3">
+                         <label for="edtDni">Dni</label>
+                         <div class="input-group">
+                             <div class="input-group-prepend">
+                                 <div class="input-group-text"><i class="fas fa-id-card"></i></div>
+                             </div>
+                             <input th:field="*{dni}" class="form-control" type="number" id="edtDni" >
+                         </div>
+
+                     </div>
+
+
+                 </div>
+
+                 <div class="col-6">
+
+                     <div class="form-group  mb-3">
+                         <label for="edtCelular">Celular</label>
+                         <div class="input-group">
+                             <div class="input-group-prepend">
+                                 <div class="input-group-text"><i class="fas fa-mobile"></i></div>
+                             </div>
+                             <input th:field="*{cellphone}" class="form-control" type="number" id="edtCelular" >
+                         </div>
+
+                     </div>
+
+
+
+                     <div class="form-group  mb-3">
+                         <label for="edtCorreo">Correo</label>
+                         <div class="input-group">
+                             <div class="input-group-prepend">
+                                 <div class="input-group-text"><i class="fas fa-at"></i></div>
+                             </div>
+                             <input th:field="*{email}" class="form-control" type="email" id="edtCorreo" disabled></input>
+                         </div>
+
+                     </div>
+
+
+                     <div class="form-group  mb-3">
+                         <label for="edtContrasena">Contraseña</label>
+                         <div class="input-group">
+                             <div class="input-group-prepend">
+                                 <div class="input-group-text"><i class="fas fa-key"></i></div>
+                             </div>
+                             <input th:field="*{password}" class="form-control" type="text" id="edtContrasena" runat="server"></input>
+                         </div>
+
+                     </div>
+
+
+                 </div>
+
+
+
+             </div>
+
+                 <div class="col-12">
+                     <button type="submit" class="btn btn-block btn-info">
+                         Actualizar
+                     </button>
+
+                 </div>
+
+
+             </form>
+
+         </div>
+
+
+    </div>
+
+</body>
+
+</html>
+
+
+

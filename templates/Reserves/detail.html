@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{Layout/main}">
+<head>
+
+</head>
+<body>
+
+    <div layout:fragment="content" th:class="p-5" >
+        <!-- <div class="reservaDetalle"></div> -->
+        <div  th:class="reservaDetalle__content">
+            <div class="row p-3">
+
+                <h2 class="col-12 text-center mb-3">RESERVA ID #<span th:text="${reserve.id}"></span></h2>
+
+                 <div class="col-12 col-md-6 mb-4">
+
+                     <div class="row mb-3 text-center">
+                         <div class="col simpleCard">
+                             <lable class="">Fecha: </lable>
+                                 <p th:text="${reserve.date}"></p>
+                         </div>
+                         <div class="col simpleCard">
+                             <label>Hora</label>
+                             <p th:text="${reserve.hour.hour}"></p>
+                         </div>
+                         <div class="col simpleCard">
+                             <label>Mesa</label>
+                             <p th:text="${reserve.ttable.number}"></p>
+                         </div>
+                     </div>
+
+                     <div class="row mb-3 text-center">
+                         <div class="col simpleCard">
+                             <label>Cant. Personas</label>
+                             <p th:text="${reserve.totalPeople}"></p>
+                         </div>
+                         <div class="col simpleCard">
+                             <label>Tipo de Pago</label>
+                             <div th:switch="${reserve.paymentType}">
+                                 <p  th:case="'1'" class='color__blue' >Tarjeta <i class='fas fa-money-check'></i></p>
+                                 <p th:case="'2'" class='color__green' >Efectivo <i class='fas fa-money-bill-wave'></i></p>
+                             </div>
+
+
+                         </div>
+                         <div class="col simpleCard">
+                             <label>Estado</label>
+                             <div th:switch="${reserve.state}">
+                                 <span th:case="'1'" class='badge badge-pill badge-danger' th:text="Cancelado"></span>
+                                 <span th:case="'2'" class='badge badge-pill badge-info' th:text="Reservado"></span>
+                                 <span th:case="'3'" class='badge badge-pill badge-success' th:text="Finalizado" ></span>
+                             </div>
+                         </div>
+
+                     </div>
+
+
+                     <div class="row mb-3 text-center">
+
+                         <div class="col-12 mb-3 simpleCard simpleCard__montoTotal">
+                             <label>Pago Total</label>
+                             <p>S/. <span th:text="${reserve.totalAmount}"></span></p>
+                         </div>
+
+
+                         <div th:switch="${reserve.state}" class="w-100" >
+                            <a th:case="'2'" class="btn btn-block btn__MainOrange"  th:href="@{/reserves/update/{id} (id=${reserve.id})}">Actualizar</a>
+                         </div>
+                     </div>
+
+                 </div>
+
+                <div class=" row col-12 col-md-6 mb-4">
+
+                    <div class="table-responsive-lg col-12">
+
+                        <table class="table table-hover misReservas__reservas">
+                            <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">Menu</th>
+                                <th scope="col" class="text-right">Precio</th>
+                                <th scope="col" class="text-right">Cantidad</th>
+                                <th scope="col" class="text-right">S/.</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                                    <tr th:each="rm : ${reserve.reserveMenu}">
+                                        <td class="d-none" th:text="${rm.id}"></td>
+                                        <td class="text-left" th:text="${rm.menu.name}"></td>
+                                        <td class="text-right" th:text="${rm.menu.price}">Precio</td>
+                                        <td class="text-right" th:text="${rm.quantity}"> Canitdad </td>
+                                        <td class="text-right" th:text="${rm.paymentQuantity}"></td>
+                                    </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+
+</body>
+
+</html>

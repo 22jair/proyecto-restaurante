@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{Layout/main}">
+<head>
+
+</head>
+<body>
+
+    <div layout:fragment="content" th:class="p-5" >
+                <h3>Mis Reservas</h3> <a href="/reserves-add">Crear Reserva</a>
+               <div th:switch="reserves">
+
+                   <div th:case="*" class="table-responsive-lg misReservas__reservas">
+                       <table class="table">
+                           <thead class="thead-dark">
+                           <tr>
+                               <th scope="col">#ID</th>
+                               <th scope="col">Fecha</th>
+                               <th scope="col">Hora</th>
+                               <!--    <th scope="col">Mesa</th>
+                              <th scope="col">Cant. Personas</th>
+                                <th scope="col">TipoPago</th>  -->
+                               <th scope="col">Total s/.</th>
+                               <th scope="col">Estado</th>
+                               <th scope="col">Opciones</th>
+                           </tr>
+                           </thead>
+                           <tbody>
+                           <tr th:each="reserve : ${myreserves} ">
+                               <td scope="row" th:text="${reserve.id}"></td>
+                               <td th:text="${reserve.date}"></td>
+                               <td th:text="${reserve.hour.hour}"></td>
+                               <td th:text="${reserve.totalAmount}"></td>
+
+                               <td th:switch="${reserve.state}">
+                                   <span th:case="'1'" class='badge badge-pill badge-danger' th:text="Cancelado"></span>
+                                   <span th:case="'2'" class='badge badge-pill badge-info' th:text="Reservado"></span>
+                                   <span th:case="'3'" class='badge badge-pill badge-success' th:text="Finalizado" ></span>
+                               </td>
+                                <td>
+
+                                    <div class="dropdown show">
+                                        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Seleccione
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+
+                                            <a class="dropdown-item" th:href="@{/reserves/detail/{id} (id=${reserve.id})}">Detalle</a>
+
+                                            <div th:switch="${reserve.state}">
+                                                <div th:case="'2'">
+                                                    <a class="dropdown-item"  th:href="@{/reserves/update/{id} (id=${reserve.id})}">Actualizar</a>
+                                                    <div class="dropdown-divider"></div>
+                                                    <a class="dropdown-item" th:href="@{/reserves/cancel/{id} (id=${reserve.id})}">Cancelar Reserva</a>
+
+                                                </div>
+                                            </div>
+
+                                         </div>
+
+                                    </div>
+
+                                </td>
+
+                           </tr>
+                           </tbody>
+                       </table>
+
+
+                   </div>
+
+               </div>
+
+
+    </div>
+
+</body>
+
+</html>

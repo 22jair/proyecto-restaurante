@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{Layout/main}">
+<head>
+
+</head>
+<body>
+
+    <div layout:fragment="content" th:class="p-5" >
+
+    <div class="row">
+        <div class="col-12 col-sm-5">
+
+            <div class="crearReservar_content">
+
+
+                <h3>Crear Reserva</h3>
+                <div  class="form-group  mb-3">
+                    <label>Seleccione y Verifique Fecha</label>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text"><i class="fas fa-calendar-alt"></i></div>
+                        </div>
+
+                        <input type="date" class="form-control" id="reserveAdd_selectDate"
+                               placeholder="Ingrese fecha" />
+                        <div class="input-group-append">
+                            <button class="btn btn__MainOrangeOutline">Verificar</button>
+                        </div>
+                    </div>
+                </div>
+
+
+                <label>Seleccione y Verifique Hora</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text"><i class="fas fa-clock"></i></div>
+                    </div>
+                    <select class="form-control" id="reserveAdd_selectHour">
+                        <option value="1">De 1pm a 2:30pm</option>
+                        <option value="2">De 3pm a 4:30pm</option>
+                        <option value="3">De 5pm a 7:30pmm</option>
+                        <option value="4">De 8pm a 9:30pm</option>
+                        <option value="5">De 10pm a 11:30</option>
+                    </select>
+                    <div class="input-group-append">
+                        <button class="btn btn__MainOrangeOutline">Verificar</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group  mb-3" >
+                <label for="reserveAdd_selectTtable">Seleccione Mesa</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text"><i class="fas fa-band-aid"></i></div>
+                    </div>
+                    <select class="form-control" id="reserveAdd_selectTtable">
+                        <option value="1">MESA01</option>
+                        <option value="2">MESA02</option>
+                        <option value="3">MESA03</option>
+                        <option value="4">MESA04</option>
+                        <option value="5">MESA05</option>
+                        <option value="6">MESA06</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group  mb-3" >
+                <label for="reserveAdd_selectQuantityPeople">Cantidad de Personas</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text"><i class="fas fa-users"></i></div>
+                    </div>
+                <input type="text" class="form-control" id="reserveAdd_selectQuantityPeople" />
+                </div>
+            </div>
+
+            <div class="form-group  mb-3" >
+                <label for="reserveAdd_selectTtable">Seleccione Tipo de Pago</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">P</div>
+                    </div>
+                    <select class="form-control" id="reserveAdd_paymentType">
+                        <option value="1">Tarjeta</option>
+                        <option value="2">Efectivo</option>
+                    </select>
+                </div>
+            </div>
+
+
+            <div class="form-group  mb-3">
+                <h3 class="text-center">Pago Total: s/. <span id="reserveAdd_totalAmount"></span></h3>
+            </div>
+
+
+            <div class="form-group" >
+                <button id="reserveAdd_btnAddReserve" class="btn btn__MainOrange btn-block">Realizar Reserva</button>
+            </div>
+
+
+        </div>
+
+
+        <div class="col-12 col-sm-7">
+            <h3 class="text-right">Mis Menus</h3>
+            <table class="table">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Precio s/.</th>
+                    <th scope="col">Cantidad</th>
+                    <th scope="col">Pago s/.</th>
+                </tr>
+                </thead>
+                <tbody id="menus_showSelectedMenu">
+
+                </tbody>
+
+            </table>
+        </div>
+
+
+    </div>
+
+    </div>
+
+
+
+
+<script th:inline="javascript" layout:fragment="extraScrip">
+
+
+
+    var menuSelected = {"quantity":0, "paymentQuantity":0, "menu": null }
+
+    var carritoMenusSession = new Map();
+    var carritoMenusSessionArray = [];
+
+    verifyLocalStorageCarritoMenuSession();
+    showSelectedMenu();
+
+
+
+    function verifyLocalStorageCarritoMenuSession(){
+        if (localStorage.getItem("carritoMenusSession") === null) {
+            return false;
+        }else{
+            carritoMenusSession = new Map(JSON.parse(localStorage.carritoMenusSession));
+        }
+    }
+
+    function showSelectedMenu(){
+        var reserveAdd_totalAmount =  document.getElementById("reserveAdd_totalAmount")
+        var menus_showSelectedMenu =  document.getElementById("menus_showSelectedMenu");
+
+        var showDataString = "";
+        var setPagoTotal = 0
+
+        //console.log(menus_showSelectedMenu);
+
+        carritoMenusSession.forEach((value) => {
+
+            carritoMenusSessionArray.push(value)
+            setPagoTotal += value.paymentQuantity
+
+            showDataString += `
+
+                    <tr>
+                        <td class="text-left">${value.menu.name}</td>
+                        <td class="text-right">${value.menu.price}</td>
+                        <td class="text-center">${value.quantity}</td>
+                        <td class="text-right">${value.paymentQuantity}</td>
+                    </tr>
+            `
+        })
+        menus_showSelectedMenu.innerHTML = showDataString
+        reserveAdd_totalAmount.innerHTML = setPagoTotal +""
+        console.log(setPagoTotal);
+    }
+
+        // *******************************************************************************
+            // realizar reserva
+        var reserveAdd_btnAddReserve =  document.getElementById("reserveAdd_btnAddReserve");
+
+        reserveAdd_btnAddReserve.addEventListener("click", () => {
+            var reserveAdd_selectDate =  document.getElementById("reserveAdd_selectDate").value;
+            var reserveAdd_selectHour =  document.getElementById("reserveAdd_selectHour").value;
+            var reserveAdd_selectTtable =  document.getElementById("reserveAdd_selectTtable").value;
+            var reserveAdd_selectQuantityPeople =  document.getElementById("reserveAdd_selectQuantityPeople").value;
+            var reserveAdd_paymentType =  document.getElementById("reserveAdd_paymentType").value;
+            var reserveAdd_totalAmount =  document.getElementById("reserveAdd_totalAmount").innerHTML;
+
+
+            var data = {
+                "date": reserveAdd_selectDate,
+                "paymentType": reserveAdd_paymentType,
+                "totalAmount": reserveAdd_totalAmount,
+                "totalPeople": reserveAdd_selectQuantityPeople,
+                "state":"2",
+                "user": {},
+                "hour": {"id":reserveAdd_selectHour},
+                "ttable": {"id":reserveAdd_selectTtable},
+                "reserveMenu":carritoMenusSessionArray
+
+            }
+
+            console.log(data);
+
+
+            const requestOptions =
+                {
+                    method: 'POST',
+                    headers: {
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                }
+            fetch('http://localhost:8080/api/reserve',requestOptions)
+                .then(response => {
+                    // is created
+                    if (response.ok && response.status == 201){
+                        localStorage.setItem('carritoMenusSession', null);
+                        window.location.href = "/reserves"
+                    }
+                })
+                .then(data => {
+                    console.log(data)
+                    //localStorage.setItem('carritoMenusSession', null);
+                    //window.location.href = "/reserves";
+                })
+        })
+
+
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,140 @@
+
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap');
+        
+
+figure{
+    margin: 0;
+}
+
+#iniciarSecion {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position:relative;
+    overflow:hidden
+}
+
+    #iniciarSecion .iniciarSecion_bg {
+        position:absolute;
+        background-image: url("../img/sesion/sesion.jpg");
+        background-size: cover;
+        width:100%;
+        /* Add the blur effect */
+        filter: blur(3px);
+        
+        z-index: -1;
+    }
+
+#iniciarSecion .iniciarSecion-contenido {
+    /* background: red; */
+    padding: 40px;
+   
+}
+
+#iniciarSecion .iniciarSecion-contenido .iniciarSecion-contenido-borde{
+    /*border-radius: 20px; */
+    box-shadow: 0 10px 5px rgba(0, 0, 0, .7);
+    background: #FFF;
+    overflow: hidden;
+}
+
+/* imagenes */
+#iniciarSecion  .iniciarSecion-contenido .iniciarSecion-imagenes figure{
+    width: 100%;
+    height:540px ;            
+    /* background-image: url('../img/iniciarsecion/1.png'); */
+    background-repeat: no-repeat;
+    background-size: contain;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+}
+
+#iniciarSecion  .iniciarSecion-contenido .iniciarSecion-imagenes figure img{
+    max-height: 550px;
+    width: 100%;
+    object-fit: cover;
+    
+}
+
+/* navtap */
+
+#iniciarSecion  .iniciarSecion-contenido .grupo-nav-form{
+    padding: 50px;
+    position: relative;
+    }
+
+#iniciarSecion  .iniciarSecion-contenido #minavTap{
+    justify-content: center;
+    margin-bottom: 20px;
+
+}
+
+#iniciarSecion  .iniciarSecion-contenido #minavTap a{
+    color: #ccc;
+}
+
+#iniciarSecion  .iniciarSecion-contenido #minavTap .active{
+    font-style: italic;
+    color: rgb(114, 114, 114);
+   
+}
+
+
+
+.form-control:focus{
+    box-shadow: none;
+    border: 1px solid rgba(0, 0, 0, .3);
+}
+
+
+.in-logo{
+    position: absolute;
+    bottom: 25px;
+    right: 25px;
+    width: 35px;
+    height: 55px;
+    display: flex;
+    align-items: flex-end
+}
+
+.in-logo img{
+    width: 100%;
+}
+
+#iniciarSecion .error{
+    margin-top: 5px;
+    border: 1px solid rgba(255, 64, 64, 0.699);
+    padding: 2px;
+    font-size: 12px;
+    text-align: center;
+    color: rgba(255, 64, 64, 0.699);
+    font-weight: bold;
+    /*border-radius: 8px;*/
+
+}
+
+
+#iniciarSecion .fa-times{
+    color: red;
+}
+#iniciarSecion .fa-check{
+    color: green;
+}
+
+
+#submit-registro, #btnIniciarSesion{
+    color: black;
+}
+
+#submit-registro:hover{
+    color: white !important;
+    cursor:pointer;
+}
+
+#btnIniciarSesion:hover {
+    color: white !important;
+    cursor: pointer;
+}

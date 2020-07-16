@@ -1,0 +1,104 @@
+--CREATE DATABASE Proy_ReservaChacra_final_2;
+
+--USE Proy_ReservaChacra_final_2;
+
+-- ****** USUARIO ****** --
+CREATE TABLE User(
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	name VARCHAR(30) NOT NULL,
+	surnames VARCHAR(30) NOT NULL,
+	email VARCHAR(30) UNIQUE NOT NULL,
+	password VARCHAR(20) NOT NULL,
+	dni CHAR(8) UNIQUE,
+	cellphone CHAR(9),
+	state CHAR(1)
+);
+-- ****** FIN USUARIO ****** --
+
+-- ****** Rol****** --
+CREATE TABLE Rol(
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	name VARCHAR(30) NOT NULL
+);
+-- ****** FIN Rol ****** --
+
+-- ****** UserRol****** --
+CREATE TABLE User_Rol(
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	id_User INT NOT NULL,
+	id_Rol INT NOT NULL,
+
+    CONSTRAINT FK_UserRol_User		FOREIGN KEY (id_User)		REFERENCES User(id),
+	CONSTRAINT FK_UserRol_Rol		FOREIGN KEY (id_Rol)		REFERENCES Rol(id)
+);
+-- ****** Rol ****** --
+
+
+-- ****** MENU ****** --
+CREATE TABLE Category_Menu(
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	name VARCHAR(30) NOT NULL,
+	description VARCHAR(200)
+);
+
+
+CREATE TABLE Menu(
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	name VARCHAR(30) NOT NULL,
+	id_Category_Menu INT NOT NULL,
+	description VARCHAR(200),
+	price Double NOT NULL,
+	url_Photo VARCHAR(200),
+	state CHAR(1) NOT NULL,
+
+	CONSTRAINT FK_Menu_CategoryMenu FOREIGN KEY (id_Category_Menu) REFERENCES Category_Menu(id)
+);
+
+-- ****** FIN MENU ****** --
+
+
+-- ****** MESA ****** --
+CREATE TABLE TTable(
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	number CHAR(6) NOT NULL,
+	description VARCHAR(200)
+);
+
+-- ****** FIN MESA ****** --
+
+-- ****** HORA ****** --
+CREATE TABLE Hour(
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	hour VARCHAR(20) NOT NULL
+);
+
+-- ****** FIN HORA ****** --
+
+
+-- ****** RESERVA ****** --
+CREATE TABLE Reserve(
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	id_User INT NOT NULL,
+	id_Hour INT NOT NULL,
+	id_Ttable INT NOT NULL,
+	date DATE NOT NULL,
+	paymentType CHAR(1) NOT NULL,
+	totalAmount Double NOT NULL,
+	totalPeople INT NOT NULL,
+	state CHAR(1),
+
+    CONSTRAINT FK_Reserve_User		FOREIGN KEY (id_User)		REFERENCES User(id),
+	CONSTRAINT FK_Reserve_Hour		FOREIGN KEY (id_Hour)		REFERENCES Hour(id),
+	CONSTRAINT FK_Reserve_Table		FOREIGN KEY (id_Ttable)		REFERENCES TTable(id)
+);
+
+CREATE TABLE Reserve_Menu(
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	id_Reserve INT NOT NULL,
+	id_Menu INT NOT NULL,
+	quantity INT NOT NULL,
+	payment_Quantity Double,
+
+	CONSTRAINT FK_ReserveMenu_Reserve	FOREIGN KEY (id_Reserve)		REFERENCES Reserve(id),
+	CONSTRAINT FK_ReserveMenu_Menu		FOREIGN KEY (id_Menu)		REFERENCES Menu(id)
+);

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{Layout/main}">
+<head>
+</head>
+<div layout:fragment="content" >
+
+
+    <section id="iniciarSecion">
+
+        <img src="img/sesion/sesion.jpg" alt="" class="iniciarSecion_bg">
+
+        <h1></h1>
+        <div class="container">
+            <div class="iniciarSecion-contenido ">
+
+                <div class="iniciarSecion-contenido-borde row">
+                    <div class="col-6">
+                        <div class="iniciarSecion-imagenes row">
+
+                            <figure>
+                                <img src="img/sesion/sesion.jpg" alt="" class="//w-100">
+                            </figure>
+                        </div>
+
+                    </div>
+                    <div class="col-6">
+                        <div class="grupo-nav-form">
+                            <ul class="nav nav-tabs" id="minavTap" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="iniciarsecionContent-tab" data-toggle="tab" href="#iniciarsecionContent" role="tab" aria-controls="iniciarsecionContent" aria-selected="true">Iniciar Secion</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="registroContent-tab" data-toggle="tab" href="#registroContent" role="tab" aria-controls="registroContent" aria-selected="false">Registrate</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="miNavTapContenido">
+
+                                <div class="tab-pane fade show active" id="iniciarsecionContent" role="tabpanel" aria-labelledby="iniciarsecion-tab">
+                                    <form  th:action="@{/login}" method="post">
+                                            <div class="form-group">
+
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <div class="input-group-text"><i class="fas fa-at"></i></div>
+                                                    </div>
+                                                    <input id="edtISCorreo" type="email" class="form-control"  name="email" aria-describedby="emailHelp" placeholder="Correo"></input>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <div class="input-group-text"><i class="fas fa-key"></i></div>
+                                                    </div>
+                                                    <input id="edtISContrasena" type="password" class="form-control" name="password"  placeholder="Contraseña"></input>
+                                                </div>
+                                            </div>
+                                     <button id="btnIniciarSesion" class="btn btn-block btn-outline-dark">Iniciar Sesion </button>
+                                    </form>
+
+                                            <br />
+
+                                            <label class="alert alert-info" ID="lblSuccessIniciarSesion" Text=""></label>
+                                            <label class="alert alert-danger" ID="lblErrorIniciarSesion" Text=""></label>
+
+                                </div>
+
+
+                                <div class="tab-pane fade" id="registroContent" role="tabpanel" aria-labelledby="registro-tab">
+
+                                    <form action="#" method="post"
+                                          th:object="${user}"
+                                          th:action="@{/users/create}"
+                                    >
+
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <div class="input-group-text"><i class="fas fa-user-edit"></i></div>
+                                                    </div>
+                                                    <input  th:field="*{name}" id="edtRENombres" type="text" class="form-control" placeholder="Nombres">
+                                                </div>
+
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <div class="input-group-text"><i class="fas fa-user-edit"></i></div>
+                                                    </div>
+                                                    <input th:field="*{surnames}" id="edtREApellidos" type="text" class="form-control" placeholder="Apellidos">
+                                                </div>
+
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="form-group col-6">
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <div class="input-group-text"><i class="fas fa-id-card"></i></div>
+                                                        </div>
+                                                        <input th:field="*{dni}" id="edtREDni" type="number" class="form-control" placeholder="Dni" ></input>
+                                                    </div>
+
+                                                </div>
+                                                <div class="form-group  col-6">
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <div class="input-group-text"><i class="fas fa-mobile-alt"></i></div>
+                                                        </div>
+                                                        <input  th:field="*{cellphone}" id="edtRECelular" type="number" class="form-control" placeholder="Nro° Celular"></input>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <div class="input-group-text"><i class="fas fa-at"></i></div>
+                                                    </div>
+                                                    <input th:field="*{email}" id="edtRECorreo" type="email" class="form-control" placeholder="Correo" ></input>
+                                                </div>
+                                                <p id="re-correo-info"></p>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <div class="input-group-text"><i class="fas fa-key"></i></div>
+                                                    </div>
+                                                    <input th:field="*{password}" id="edtREContrasena" type="password" class="form-control" placeholder="Contraseña"></input>
+                                                </div>
+                                            </div>
+
+                                            <button id="btnRegistro" class="btn btn-block btn-outline-dark">Registrarme</button>
+                                    </form>
+                                            <br />
+                                            <label class="alert alert-info mb-0" ID="lblSuccessRegistro" runat="server" Text=""></label>
+                                            <label class="alert alert-danger mb-0" ID="lblErrorRegistro" runat="server" Text=""></label>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+
+</div>
+
+<!--
+<div class="modal-dialog text-center">
+    <div class="col-sm-8 main-section">
+        <div class="modal-content">
+            <div class="col-12">Login</div>
+            <form  th:action="@{/login}" method="post">
+                <div class="form-group">
+                    <input class="form-control" type="text" name="username" placeholder="username" >
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="password" name="password" placeholder="password" >
+                </div>
+                <button class="btn btn-primary" type="submit" >Login</button>
+                <h6 class="text-center"><a th:href="@{/registration}">crear una cuenta</a>  </h6>
+            </form>
+        </div>
+    </div>
+</div>
+-->
+
+</body>
+</html>
+
+

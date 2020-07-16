@@ -1,0 +1,106 @@
+
+--USE Proy_ReservaChacra_final_2;
+
+-- ######## INSERT USUARIO ######## --
+INSERT INTO user VALUES(null,'JOSE', 'ARTEAGA SARAVIA','JOSE@JOSE.COM','123',70399355,123456789,1),
+						(null,'JAIR', 'SARAVIA ARTEAGA','JAIR@JAIR.COM','123',70399356,123456789,1),
+                        (null,'PEDRO', 'ARSA','PEDRO@PEDRO.COM','123',70399357,123456789,1),
+                        (null,'POL', 'SABEDRA','POL@POL.COM','123',70399358,123456789,1),
+                        (null,'ALEXIS', 'OLOYA','ALEXIS@ALEXIS.COM','123',70399359,123456789,1),
+                        (null,'DIEGO', 'VIZCARRA','DIEGO@DIEGO.COM','123',70399360,123456789,1);
+-- ######## FIN INSERT USUARIO ######## --
+
+-- ######## INSERT Rol ######## --
+INSERT INTO Rol VALUES(null,'ADMIN'),
+					  (null,'USER');
+-- ######## FIN INSERT Rol ######## --
+
+-- ######## INSERT UserRol ######## --
+INSERT INTO user_Rol VALUES(null,1,1),
+					  (null,2,2),
+                      (null,3,2),
+                      (null,4,2),
+                      (null,5,2),
+                      (null,6,2);
+-- ######## FIN INSERT UserRol ######## --
+
+-- ######## INSERT CATEGORIA_MENU  ######## --
+INSERT INTO Category_Menu VALUES(null, 'SOPAS', 'Mi Descripcion SOPAS'),
+							   (null, 'ENTRADAS', 'Mi Descripcion ENTRADAS'),
+                               (null, 'PLATO PRINCIPAL', 'Mi Descripcion PLATO PRINCIPAL'),
+                               (null, 'AMBURGUESAS', 'Mi Descripcion AMBURGUESAS'),
+                               (null, 'POSTRES', 'Mi Descripcion POSTRES'),
+                               (null, 'JUGOS', 'Mi Descripcion JUGOS'),
+                               (null, 'BEBIDAS', 'Mi Descripcion BEBIDAS');
+-- ######## FIN INSERT CATEGORIA_MENU ######## --
+
+-- ######## INSERT MENU ######## --
+	-- ** SOPAS
+INSERT INTO Menu VALUES(null, 'SOPA CRIOLLA', 1, 'Descripcion SOPA CRIOLLA', 8.0, '1_sopa-criolla.jpg', 1),
+					   (null, 'SOPA DE POLLO', 1, 'Descripcion SOPA DE POLLO', 8.0, '1_sopa-de-pollo.jpg', 1),
+                       (null, 'SOPA DE CARNE', 1, 'Descripcion SOPA DE CARNE', 8.0, '1_sopa-de-carne.jpg', 1),
+                       (null, 'SOPA A LA MINUTA', 1, 'Descripcion SOPA A LA MINUTA', 8.0, '1_sopa-a-la-minuta.jpg', 1),
+                       (null, 'MENESTRON', 1, 'Descripcion MENESTRON', 8.0, '1_menestron.jpg', 1);
+
+	-- ** ENTRADAS
+INSERT INTO Menu VALUES(null, 'TEQUEÑOS', 2, 'Descripcion TEQUEÑOS', 5.0, '2_tequeños.jpg', 1),
+					   (null, 'PAPA A LA HUANCAINA', 2, 'Descripcion PAPA A LA HUANCAINA', 5.0, '2_papa-a-la-huancaina.jpg', 1),
+                       (null, 'PALTA RELLENA', 2, 'Descripcion PALTA RELLENA', 5.0, '2_palta-rellena.jpg', 1),
+                       (null, 'CAUSA RELLENA', 2, 'Descripcion CAUSA RELLENA', 5.0, '2_causa-rellena.jpg', 1),
+                       (null, 'PAPA RELLENA', 2, 'Descripcion PAPA RELLENA', 5.0, '2_papa-rellena.jpg', 1),
+                       (null, 'TAMAL', 2, 'Descripcion TAMAL', 5.0, '2_tamal.jpg', 1);
+
+-- ** MENU PRINCIPAL
+INSERT INTO Menu VALUES(null, 'LOMO SALTADO', 3, 'Descripcion LOMO SALTADO', 20.0, '3_lomo-saltado.jpg', 1),
+					   (null, 'SOPA SECA', 3, 'Descripcion SOPA SECA', 20.0, '3_sopa-seca.jpg', 1),
+                       (null, 'CHANCHO A LA CAJA CHINA', 3, 'Descripcion CHANCHO A LA CAJA CHINA', 20.0, '3_chancho-a-la-caja-china.jpg', 1),
+                       (null, 'ARROZ CON POLLO', 3, 'Descripcion ARROZ CON POLLO', 20.0, '3_arroz-con-pollo.jpg', 1),
+                       (null, 'AJI DE GALLINA', 3, 'Descripcion AJI DE GALLINA', 20.0, '3_aji-de-gallina.jpg', 1),
+                       (null, 'ESCABECHE DE POLLO', 3, 'Descripcion ESCABECHE DE POLLO', 20.0, '3_escabeche-de-pollo.jpg', 1);
+
+-- ** POSTRE
+INSERT INTO Menu VALUES(null, 'PICARONES', 5, 'Descripcion PICARONES', 10.0, '5_picarones.jpg', 1),
+					   (null, 'LECHE ASADA', 5, 'Descripcion LECHE ASADA', 10.0, '5_leche-asada.jpg', 1),
+                       (null, 'PIE DE LIMON', 5, 'Descripcion PIE DE LIMON', 10.0, '5_pie-de-limon.jpg', 1),
+                       (null, 'ALFAJORES', 5, 'Descripcion ALFAJORES', 10.0, '5_alfajores.jpg', 1),
+                       (null, 'ARROZ CON LECHE', 5, 'Descripcion ARROZ CON LECHE', 10.0, '5_arroz-con-leche.jpg', 1);
+
+-- ** BEBIDAS
+INSERT INTO Menu VALUES(null, 'GASEOSA 3L', 7, 'Descripcion GASEOSA 3L', 13.0, '7_gaseosa_3l.jpg', 1),
+					   (null, 'GASEOSA 2L', 7, 'Descripcion GASEOSA 2L', 9.0, '7_gaseosa_2l.jpg', 1),
+                       (null, 'GASEOSA PERSONAL', 7, 'Descripcion PERSONAL', 5.0, '7_gaseosa_personal.jpg', 1);
+-- ######## FIN MENU ######## --
+
+
+-- ######## INSERT MESA ######## --
+INSERT INTO TTABLE VALUES
+(null, 'MESA01', 'Descripcion mesa 1'),
+(null, 'MESA02', 'Descripcion mesa 2'),
+(null, 'MESA03', 'Descripcion mesa 3'),
+(null, 'MESA04', 'Descripcion mesa 4'),
+(null, 'MESA05', 'Descripcion mesa 5'),
+(null, 'MESA06', 'Descripcion mesa 6');
+-- ######## FIN MESA ######## --
+
+-- ######## INSERT HORA ######## --
+INSERT INTO HOUR VALUES
+(null, 'De 1pm a 2:30pm'),
+(null, 'De 3pm a 4:30pm'),
+(null, 'De 5pm a 7:30pm'),
+(null, 'De 8pm a 9:30pm'),
+(null, 'De 10pm a 11:30');
+-- ######## FIN HORA ######## --
+
+-- ######## INICIO RESERVAS ######## --
+INSERT INTO RESERVE VALUES
+(null, 1,1,1,'2020/05/1','1',80.00, 2, 2),
+(null, 2,1,2,'2020/05/1','1',120.00, 3, 2),
+(null, 3,1,3,'2020/05/1','1',80.00, 2, 2),
+(null, 4,1,4,'2020/05/1','1',120.00, 3, 2),
+(null, 5,1,5,'2020/05/1','1',80.00, 2, 2),
+(null, 3,2,3,'2020/05/1','2',70.00, 2, 2),
+(null, 2,3,1,'2020/05/5','2',100.00, 3, 2),
+(null, 5,4,3,'2020/05/5','1',35.00, 1, 2),
+(null, 6,4,5,'2020/05/5','2',150.00, 5, 2),
+(null, 4,5,1,'2020/05/6','2',50.00, 2, 2);
+-- ######## FIN RESERVAS ######## --

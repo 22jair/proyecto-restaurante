@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{Layout/main}">
+<head>
+
+</head>
+<body>
+
+    <div layout:fragment="content" th:class="p-5" >
+
+    <div class="row">
+        <div class="col-12 col-sm-5">
+
+            <div class="crearReservar_content">
+
+
+                <h3>Reserva ID: <span th:text="${reserve.id}"></span></h3>
+
+                <div  class="form-group  mb-3">
+                    <label>Seleccione y Verifique Fecha</label>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text"><i class="fas fa-calendar-alt"></i></div>
+                        </div>
+
+                        <input type="date" th:value="${reserve.date}" class="form-control" id="reserveAdd_selectDate" />
+                        <div class="input-group-append">
+                            <button class="btn btn__MainOrangeOutline">Verificar</button>
+                        </div>
+                    </div>
+                </div>
+
+
+                <label>Seleccione y Verifique Hora</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text"><i class="fas fa-clock"></i></div>
+                    </div>
+                    <select class="form-control" id="reserveAdd_selectHour" th:value="${reserve.hour.id}">
+                        <option th:each="hour : ${hours}"
+                                th:value="${hour.id}"
+                                th:text="${hour.hour}"
+                                th:selected="${reserve.hour.id}">
+
+                    </select>
+                    <div class="input-group-append">
+                        <button class="btn btn__MainOrangeOutline">Verificar</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group  mb-3" >
+                <label for="reserveAdd_selectTtable">Seleccione Mesa</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text"><i class="fas fa-band-aid"></i></div>
+                    </div>
+                    <select class="form-control" id="reserveAdd_selectTtable">
+                        <option th:each="ttable : ${ttables}"
+                                th:value="${ttable.id}"
+                                th:text="${ttable.number}"
+                                th:selected="${reserve.ttable.id}">
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group  mb-3" >
+                <label for="reserveAdd_selectQuantityPeople">Cantidad de Personas</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text"><i class="fas fa-users"></i></div>
+                    </div>
+                <input type="text" class="form-control" id="reserveAdd_selectQuantityPeople" th:value="${reserve.totalPeople}"/>
+                </div>
+            </div>
+
+            <div class="form-group  mb-3" >
+                <label for="reserveAdd_selectTtable">Seleccione Tipo de Pago</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">P</div>
+                    </div>
+                    <select class="form-control" id="reserveAdd_paymentType">
+                        <option th:each="typePayment : ${paymentTypes}"
+                                th:value="${typePayment.id}"
+                                th:text="${typePayment.name}"
+                                th:selected="${reserve.paymentType}">
+                    </select>
+                </div>
+            </div>
+
+
+            <div class="form-group  mb-3">
+                <h3 class="text-center">Pago Total: s/. <span id="reserveAdd_totalAmount" th:text="${reserve.totalAmount}"></span></h3>
+            </div>
+
+
+            <div class="form-group" >
+                <button id="reserveUpdate_btnAddReserve" class="btn btn__MainOrange btn-block">Realizar Reserva</button>
+            </div>
+
+
+        </div>
+
+        <div class="col-12 col-sm-7">
+
+            <h3 class="text-right">Mis Menus</h3>
+
+            <div class="row">
+                <!--
+                          <div class="col-6 form-group">
+
+                              <label for="">Filtar por Categoria</label>
+                              <div class="input-group">
+                                  <div class="input-group-prepend">
+                                      <div class="input-group-text"><i class="fas fa-filter"></i></div>
+                                  </div>
+                                  <asp:DropDownList CssClass="form-control menus__Selected-Menu" ID="cbbCategoriaMenu" AutoPostBack="true" runat="server" AppendDataBoundItems="true" OnSelectedIndexChanged="cbbCategoriaMenu_SelectedIndexChanged">
+                                      <Items>
+                                          <asp:ListItem Text="TODOS" Value="0"> </asp:ListItem>
+                                      </Items>
+                                  </asp:DropDownList>
+                              </div>
+
+
+                          </div> -->
+                <div class="col-6 form-group">
+                    <label for="reserveAdd_selectAnotherMenu">Seleccion Menu</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text"><i class="fas fa-utensils"></i></div>
+                        </div>
+                        <select class="form-control menus__Selectedl" id="reserveAdd_selectAnotherMenu">
+                            <option th:each="menu : ${menus}"
+                                    th:value="${menu.id}"
+                                    th:text="${menu.name}">
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-6 form-group">
+                    <label for="txtAgregarCantidad">Ingrese Cantidad</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text"><i class="fas fa-plus"></i></div>
+                        </div>
+                        <input class="form-control" type="number"  id="txtAgregarCantidad" placeholder="0"></input>
+
+                    </div>
+                </div>
+
+                <div class="col-12 form-group">
+                    <button id="btnAgregarMenu" class="btn btn-block btn__MainOrange">Agregar</button>
+                </div>
+
+                <!--
+                <div class="col-12 form-group">
+                    <button id="btnRemoveAll" class="btn btn-block btn-danger">Remover Todo</button>
+                </div> -->
+            </div>
+
+
+            <table class="table">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Precio s/.</th>
+                    <th scope="col">Cantidad</th>
+                    <th scope="col">Pago s/.</th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                <tbody id="menus_showSelectedMenu">
+                    <tr th:each="rm : ${reserve.reserveMenu}">
+                        <td class="d-none" th:text="${rm.menu.id}"></td>
+                        <td class="text-left" th:text="${rm.menu.name}"></td>
+                        <td class="text-right" th:text="${rm.menu.price}">Precio</td>
+                        <td class="text-right" th:text="${rm.quantity}"> Canitdad </td>
+                        <td class="text-right" th:text="${rm.paymentQuantity}"></td>
+                        <!-- Marca error pero si funciona, intellj no lo reconoce-->
+                        <td> <button class="btn btn-outline-danger" th:data-menuId="${rm.menu.id}" th:onclick="deleteMenu(this.getAttribute('data-menuId'))" >+</button> </td>
+                    </tr>
+                </tbody>
+
+            </table>
+        </div>
+
+
+    </div>
+
+    </div>
+
+
+
+
+<script th:inline="javascript" layout:fragment="extraScrip">
+
+    /*<![CDATA[*/
+    var allMenus = /*[[${menus}]]*/ [];
+    var reserve = /*[[${reserve}]]*/ [];
+    var reserveMenu = /*[[${reserve.reserveMenu}]]*/ [];
+    /*]]>*/
+
+    console.log(allMenus);
+
+    var reserveAdd_totalAmount = document.getElementById("reserveAdd_totalAmount");
+    var menus_showSelectedMenu = document.getElementById("menus_showSelectedMenu");
+
+    var btnAgregarMenu = document.getElementById("btnAgregarMenu")
+
+
+    var mapReserveMenu = new Map();
+
+    reserveMenu.forEach((rm) => {
+        mapReserveMenu.set(rm.menu.id, rm)
+    })
+
+    //console.log(allMenus);
+    //console.log(reserve);
+    //console.log(mapReserveMenu);
+
+    // eliminamos de la tabla
+    function deleteMenu(menuId){
+        var id = parseInt(menuId)
+        if (mapReserveMenu.has(id)){
+
+            var total = reserve.totalAmount - mapReserveMenu.get(id).paymentQuantity;
+
+            if (total <= 0){
+                reserve.totalAmount = 0
+                reserveAdd_totalAmount.innerHTML = 0;
+            }else{
+                reserve.totalAmount = total
+                reserveAdd_totalAmount.innerHTML = total;
+            }
+
+            mapReserveMenu.delete(id)
+            showMenus();
+        }
+    }
+
+    // agregamos a la tabla
+    var menuSelected = {"quantity":0, "paymentQuantity":0, "reserve": {"id":reserve.id}, "menu": null }
+
+    btnAgregarMenu.addEventListener("click", () => {
+
+        var selectAnotherMenuId = document.getElementById("reserveAdd_selectAnotherMenu").value
+        var txtAgregarCantidad = document.getElementById("txtAgregarCantidad").value
+
+        if (txtAgregarCantidad === ""){
+            alert("Error: cantidad vacia")
+            return false;
+        }
+
+        selectAnotherMenuId = parseInt(selectAnotherMenuId);
+        txtAgregarCantidad = parseInt(txtAgregarCantidad);
+
+        allMenus.filter(menu => {
+            if (menu.id == selectAnotherMenuId){
+
+                if (mapReserveMenu.has(selectAnotherMenuId)){
+                    alert("Error: menu registro actualmente")
+                }else{
+                    var total =  txtAgregarCantidad * menu.price;
+                    menuSelected.menu = menu;
+                    menuSelected.quantity = txtAgregarCantidad;
+                    menuSelected.paymentQuantity = total
+
+                    mapReserveMenu.set(menu.id, menuSelected);
+
+                    reserve.totalAmount += total
+                    reserveAdd_totalAmount.innerHTML = reserve.totalAmount;
+                    showMenus();
+                    menuSelected = {"quantity":0, "paymentQuantity":0, "menu": null }
+                }
+
+            }
+        });
+    })
+
+    // remove all table
+    /*
+    var btnRemoveAll = document.getElementById("btnRemoveAll")
+    btnRemoveAll.addEventListener("click", () => {
+    }) */
+
+
+    function showMenus(){
+        menus_showSelectedMenu.innerHTML = "";
+
+        mapReserveMenu.forEach((rm) => {
+            menus_showSelectedMenu.innerHTML +=   `
+                <tr>
+                    <td class="d-none">${rm.id}</td>
+                    <td class="text-left" >${rm.menu.name}</td>
+                    <td class="text-right" >${rm.menu.price}</td>
+                    <td class="text-right" >${rm.quantity}</td>
+                    <td class="text-right" >${rm.paymentQuantity}</td>
+                    <td> <button class="btn btn-outline-danger" data-menuId="${rm.menu.id}" onclick="deleteMenu(this.getAttribute('data-menuId'))" >+</button> </td>
+                </tr>
+                `
+        })
+
+        console.log(mapReserveMenu);
+        console.log(reserve)
+    }
+
+
+
+
+
+
+    /*********************/
+    // ACTUALIZAMOS
+
+    var reserveUpdate_btnAddReserve =  document.getElementById("reserveUpdate_btnAddReserve");
+
+    reserveUpdate_btnAddReserve.addEventListener("click", () => {
+        var reserveAdd_selectDate =  document.getElementById("reserveAdd_selectDate").value;
+        var reserveAdd_selectHour =  document.getElementById("reserveAdd_selectHour").value;
+        var reserveAdd_selectTtable =  document.getElementById("reserveAdd_selectTtable").value;
+        var reserveAdd_selectQuantityPeople =  document.getElementById("reserveAdd_selectQuantityPeople").value;
+        var reserveAdd_paymentType =  document.getElementById("reserveAdd_paymentType").value;
+        var reserveAdd_totalAmount =  document.getElementById("reserveAdd_totalAmount").innerHTML;
+
+        if (reserveAdd_totalAmount <= 0){
+            alert("Debe agregar al menus un Menu")
+            return false;
+        }
+
+        var arrayReserveMenu = [];
+        mapReserveMenu.forEach((rm) => {
+            arrayReserveMenu.push(rm);
+
+        })
+
+
+        var data = {
+            "id" : reserve.id,
+            "date": reserveAdd_selectDate,
+            "paymentType": reserveAdd_paymentType,
+            "totalAmount": reserveAdd_totalAmount,
+            "totalPeople": reserveAdd_selectQuantityPeople,
+            "state":"2",
+            "user": {},
+            "hour": {"id":reserveAdd_selectHour},
+            "ttable": {"id":reserveAdd_selectTtable},
+            "reserveMenu": arrayReserveMenu
+        }
+
+
+
+        console.log(data);
+
+
+        const requestOptions =
+            {
+                method: 'PUT',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            }
+
+        fetch('http://localhost:8080/api/reserve',requestOptions)
+            .then(response => {
+                // is created
+                if (response.ok && response.status == 200){
+                    window.location.href = "/reserves"
+                }
+            })
+            .then(data => {
+                console.log(data)
+                //localStorage.setItem('carritoMenusSession', null);
+                //window.location.href = "/reserves";
+            })
+
+    })
+
+
+
+</script>
+</body>
+</html>

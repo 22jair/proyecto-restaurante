@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{Layout/main}">
+<head>
+
+</head>
+
+    <div layout:fragment="content" th:class="p-5" >
+
+         <div class="row p-5">
+            <div class="col-md-12 col-lg-9">
+
+                <!--<input type="text" id="searchMenu" name="searchMenu">
+
+                <select id="selectedCategoryMenu">
+                    <option value="0">SELECCIONE</option>
+                    <option selected value="100">TODOS</option>
+                    <option th:each="categoryMenu : ${categoriesMenus}" th:value="${categoryMenu.id}" th:text="${categoryMenu.name}"></option>
+                </select> -->
+
+                <!--
+                <div class="row item" th:each="row, stat : ${categoriesMenus}">
+
+                    <div class="col-lg-6 form-group">
+                        <input type="text" th:value="${row.id}" class="form-control"  th:field="*{row[__${stat.index}__]}"  /><p th:text="${stat.index}"></p>
+                    </div>
+
+                </div> -->
+
+                <div class="row" id="menus_container">
+
+
+                            <div class="col-6 col-sm-6 col-md-4 col-xl-4 p-2" th:each="menu: ${menus}">
+                                <div class="card menus__card">
+                                    <figure class="menus__card-figure">
+                                    <img class="card-img-top menus__card-img" th:src="@{'/img/menus/'+ ${menu.urlPhoto}}"/>
+                                    </figure>
+                                    <div class="card-body">
+                                        <span class="d-none" th:text="${menu.id}">${menu.id}</span>
+                                        <h5 class="card-title menus__card-title" th:text="${menu.name}"></h5>
+                                        <p class="card-text menus__card-descripcion" th:text="${menu.description}"></p>
+                                        <p class="card-text menus__card-precio"><span class="color-text-orange">S/ </span><span th:text="${menu.price}"></span></p>
+                                        <p class="card-text d-none" th:text="${menu.categoryMenu.name}">Categoria: </p>
+
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <!-- <button class="btn btn-primary menu_btnAgregarCantidad"  th:data-menu="{${menu.id},${menu.name}}" th:onclick="agregarCantidad(this.getAttribute('data-menu'))">+</button> -->
+                                                <button class="btn btn__MainOrange menu_btnAgregarCantidad" th:data-menuId="${menu.id}" th:onclick="menus_Operation(this.getAttribute('data-menuId'),'add')" >+</button>
+                                            </div>
+
+                                            <input type="text" name="agregarCantidad" th:id="${'menuAgregarCantidad_'+menu.id}" class="form-control" />
+
+                                            <div class="input-group-append">
+                                                <button class="btn btn__MainBlack menu_btnRestarCantidad" th:data-menuId="${menu.id}" th:onclick="menus_Operation(this.getAttribute('data-menuId'), 'subtract')"  >-</button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                </div>
+
+            </div>
+
+             <ul list-group class="col-md-12 col-lg-3"  id="menus_showSelectedMenu">
+             </ul>
+
+
+        </div>
+
+    </div>
+
+
+<script th:inline="javascript" layout:fragment="extraScrip">
+    /*<![CDATA[*/
+    const allMenus = /*[[${menus}]]*/ [];
+    /*]]>*/
+
+
+
+  // *************************************************************************************
+        // AGREGAR Y QUITAR CANTIDAD PARA LOCAL STORAGE
+
+    var menuSelected = {"quantity":0, "paymentQuantity":0, "menu": null }
+
+    var carritoMenusSession = new Map();
+    verifyLocalStorageCarritoMenuSession();
+    showSelectedMenu();
+
+
+    function verifyLocalStorageCarritoMenuSession(){
+        if (localStorage.getItem("carritoMenusSession") === null) {
+            return false;
+        }else{
+            carritoMenusSession = new Map(JSON.parse(localStorage.carritoMenusSession));
+        }
+    }
+
+    function menus_Operation(id, operation){
+        //arreglamos el id para buscar el input
+        const textInputCantidadId = "menuAgregarCantidad_" + id
+        var cantidad =  document.getElementById(textInputCantidadId).value.trim();
+
+        if (cantidad == null || cantidad == "" || cantidad == "0"){
+            return false; // no se hace nada
+        }else{
+            cantidad = parseInt(cantidad)
+            if (cantidad <= 0){
+                return false
+            }
+        }
+        if (operation == "add"){
+            addMenu(id, cantidad);
+        }else{
+            subtract(id, cantidad);
+        }
+        showSelectedMenu();
+    }
+
+    function addMenu(id, cantidad) {
+        //console.log(cantidad);
+        allMenus.filter(menu => {
+            if (menu.id == id){
+                menuSelected.menu = menu;
+
+                if (carritoMenusSession.size == 0){
+                    menuSelected.quantity = cantidad;
+
+                }else{
+                    if (carritoMenusSession.has(menu.id)){
+                        //console.log(menu);
+                        var currentMenu = carritoMenusSession.get(menu.id)
+                        //console.log(currentMenu);
+                        //editamos
+                        menuSelected.quantity = cantidad + currentMenu.quantity
+                    }else{
+                        menuSelected.quantity = cantidad;
+                    }
+                }
+                menuSelected.paymentQuantity = menuSelected.quantity * menu.price;
+                carritoMenusSession.set(menu.id, menuSelected);
+
+                //guardamos en localstorage
+                localStorage.carritoMenusSession = JSON.stringify(Array.from(carritoMenusSession.entries()));
+
+                menuSelected = {"quantity":0, "paymentQuantity":0, "menu": null }
+            }
+        });
+
+    }
+
+
+    function subtract(id, cantidad){
+
+        allMenus.filter(menu => {
+            if (menu.id == id){
+                menuSelected.menu = menu;
+                if (carritoMenusSession.has(menu.id)){
+
+                    var currentMenu = carritoMenusSession.get(menu.id)
+                    menuSelected.quantity = currentMenu.quantity - cantidad;
+
+                    if (menuSelected.quantity <= 0){
+                        carritoMenusSession.delete(menu.id)
+                        localStorage.carritoMenusSession = JSON.stringify(Array.from(carritoMenusSession.entries()));
+                        return false
+                    }
+                    menuSelected.paymentQuantity = menuSelected.quantity * menu.price;
+                    carritoMenusSession.set(menu.id, menuSelected)
+                }else{
+                    return false;
+                }
+            }
+            //guardamos en localstorage
+            localStorage.carritoMenusSession = JSON.stringify(Array.from(carritoMenusSession.entries()));
+        });
+    }
+
+
+    function showSelectedMenu(){
+
+        var showSelectedMenu =  document.getElementById("menus_showSelectedMenu");
+        showSelectedMenu.innerHTML = ''
+
+        if (carritoMenusSession.size > 0){
+
+            carritoMenusSession.forEach((value) => {
+                //console.log(value)
+                var totalXQuantity = value.quantity * value.menu.price;
+                showSelectedMenu.innerHTML += `<li class='list-group-item  menus__list-diccionario-mostrar'>${value.menu.name} | ${value.quantity} |  s/. ${value.menu.price} | s/.${value.paymentQuantity}</li>`
+            })
+
+            showSelectedMenu.innerHTML += `<li><a class='btn btn-dark btn-block' href='../reserves/add'><i class='fas fa-dollar-sign'></i> Pagar Reserva</a></li>`
+        }
+
+
+
+    }
+
+
+
+    // **********************  BUSCADOR Y SELECCION POR CATEGORIA MENU *******************************
+    /*
+        var searchMenu =  document.getElementById("searchMenu");
+        var selectedCategoryMenu = document.getElementById("selectedCategoryMenu");
+
+        selectedCategoryMenu.addEventListener('change',  function() {
+            filterMenuData(this.value, allMenus, "SELECTED")
+
+        });
+        searchMenu.addEventListener("keyup", async (e) =>{
+            filterMenuData( e.target.value, allMenus, "SEARCH");
+        })
+
+         const filterMenuData = (value, menus, type) => {
+
+             var myMenuDataFilter = [];
+
+            if (type == "SEARCH"){
+                // cuando buscamos reseteamos el Selected a SELECCIONE
+                selectedCategoryMenu.selectedIndex = "0"
+                //console.log(value, value.trim().length, menus)
+                // si el buscador esta limpio retornamos
+                if (value.trim().length <= 0) return false;
+
+                menus.forEach( menu => {
+                    if(menu.name.toLowerCase().includes(value.toLowerCase())){
+                        myMenuDataFilter.push(menu);
+                    }
+                })
+            }else if(type == "SELECTED"){
+                // cuando seleccionamos limpiamos la caja de texto SEARCH
+                searchMenu.value = ''
+                // si el valor es 0 no buscamos y retornamos
+                if (value == 0) return false;
+                //so el valor es 100 retornamos todos
+                if (value == 100) return rebuildMenuContainer (menus);
+
+                menus.forEach( menu => {
+                    if(menu.categoryMenu.id == value){
+                        myMenuDataFilter.push(menu);
+                    }
+                })
+
+            }
+             rebuildMenuContainer (myMenuDataFilter)
+        }
+
+        const rebuildMenuContainer = (menus) => {
+            //console.log(menus)
+            var menus_container =  document.getElementById("menus_container");
+            menus_container.innerHTML = '';
+
+            menus.forEach( menu => {
+                var cardMenu = `
+                    <div class="col-6 col-sm-6 col-md-4 col-xl-4 p-2">
+                                    <div class="card">
+                                        <img class="card-img-top menus__card-img" src="/img/menus/${menu.urlPhoto}">
+                                        <div class="card-body">
+                                            <span class="d-none">1</span>
+                                            <h5 class="card-title menus__card-title">${menu.name}</h5>
+                                            <p class="card-text menus__card-descripcion">${menu.description}</p>
+                                            <p class="card-text menus__card-precio">${menu.price}</p>
+                                            <p class="card-text">${menu.categoryMenu.name}</p>
+
+                                        </div>
+                                        <div class="card-footer">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                     <button class="btn btn-primary menu_btnAgregarCantidad"  th:data-menu="${menu}" th:onclick="agregarCantidad(this.getAttribute('data-menu'))">+</button>
+                                                </div>
+
+                                                <input type="text" name="agregarCantidad" class="form-control">
+
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-danger">-</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                `
+                menus_container.innerHTML += cardMenu
+
+            })
+        }
+    */
+
+
+</script>
+</body>
+
+</html>
+
+
+
