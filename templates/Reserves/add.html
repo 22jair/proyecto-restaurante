@@ -181,11 +181,14 @@
         console.log(setPagoTotal);
     }
 
+
+
         // *******************************************************************************
             // realizar reserva
         var reserveAdd_btnAddReserve =  document.getElementById("reserveAdd_btnAddReserve");
 
         reserveAdd_btnAddReserve.addEventListener("click", () => {
+
             var reserveAdd_selectDate =  document.getElementById("reserveAdd_selectDate").value;
             var reserveAdd_selectHour =  document.getElementById("reserveAdd_selectHour").value;
             var reserveAdd_selectTtable =  document.getElementById("reserveAdd_selectTtable").value;
@@ -193,6 +196,11 @@
             var reserveAdd_paymentType =  document.getElementById("reserveAdd_paymentType").value;
             var reserveAdd_totalAmount =  document.getElementById("reserveAdd_totalAmount").innerHTML;
 
+
+            if(reserveAdd_totalAmount == "0"){
+                alert("Debe elegir al menos un menu");
+                return false;
+            }
 
             var data = {
                 "date": reserveAdd_selectDate,
@@ -225,6 +233,8 @@
                     if (response.ok && response.status == 201){
                         localStorage.setItem('carritoMenusSession', null);
                         window.location.href = "/reserves"
+                    }else{
+                        alert("Error al crear la reserva, verificar sus campos");
                     }
                 })
                 .then(data => {

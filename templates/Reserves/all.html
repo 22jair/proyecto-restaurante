@@ -8,7 +8,7 @@
 <body>
 
     <div layout:fragment="content" th:class="p-5" >
-                <h3>Mis Reservas</h3> <a href="/reserves-add">Crear Reserva</a>
+                <h3>Mis Reservas</h3> <a href="/reserves/add">Crear Reserva</a>
                <div th:switch="reserves">
 
                    <div th:case="*" class="table-responsive-lg misReservas__reservas">

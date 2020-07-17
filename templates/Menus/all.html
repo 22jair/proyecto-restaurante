@@ -11,13 +11,31 @@
          <div class="row p-5">
             <div class="col-md-12 col-lg-9">
 
-                <!--<input type="text" id="searchMenu" name="searchMenu">
+               <div class="row  mb-3">
 
-                <select id="selectedCategoryMenu">
-                    <option value="0">SELECCIONE</option>
-                    <option selected value="100">TODOS</option>
-                    <option th:each="categoryMenu : ${categoriesMenus}" th:value="${categoryMenu.id}" th:text="${categoryMenu.name}"></option>
-                </select> -->
+                   <div class="form-group col-6">
+                       <label for="searchMenu">Filter Por Nombre</label>
+                       <div class="input-group mb-2 mr-sm-2">
+                           <div class="input-group-prepend">
+                               <div class="input-group-text"><i class="fas fa-pen-alt"></i></div>
+                           </div>
+                        <input type="text" id="searchMenu" class="form-control" placeholder="Escribir..." name="searchMenu">
+                       </div>
+                   </div>
+                   <div class="form-group col-6">
+                       <label for="selectedCategoryMenu">Filter por Categoría</label>
+                       <div class="input-group mb-2 mr-sm-2">
+                           <div class="input-group-prepend">
+                               <div class="input-group-text"><i class="fas fa-filter"></i></div>
+                           </div>
+                   <select id="selectedCategoryMenu"  class="form-control">
+                       <option value="0">SELECCIONE</option>
+                       <option selected value="100">TODOS</option>
+                       <option th:each="categoryMenu : ${categoriesMenus}" th:value="${categoryMenu.id}" th:text="${categoryMenu.name}"></option>
+                   </select>
+                       </div>
+                   </div>
+               </div>
 
                 <!--
                 <div class="row item" th:each="row, stat : ${categoriesMenus}">
@@ -196,16 +214,16 @@
             })
 
             showSelectedMenu.innerHTML += `<li><a class='btn btn-dark btn-block' href='../reserves/add'><i class='fas fa-dollar-sign'></i> Pagar Reserva</a></li>`
+        }else{
+            showSelectedMenu.innerHTML += `<div class='menus__errorNoContiene'><img class='w-100 mb-3' src='../../img/icons/reservaDetalle.png'/><p>No contiene registros</p></div>`
         }
-
-
 
     }
 
 
 
     // **********************  BUSCADOR Y SELECCION POR CATEGORIA MENU *******************************
-    /*
+
         var searchMenu =  document.getElementById("searchMenu");
         var selectedCategoryMenu = document.getElementById("selectedCategoryMenu");
 
@@ -258,38 +276,42 @@
 
             menus.forEach( menu => {
                 var cardMenu = `
+
                     <div class="col-6 col-sm-6 col-md-4 col-xl-4 p-2">
-                                    <div class="card">
-                                        <img class="card-img-top menus__card-img" src="/img/menus/${menu.urlPhoto}">
-                                        <div class="card-body">
-                                            <span class="d-none">1</span>
-                                            <h5 class="card-title menus__card-title">${menu.name}</h5>
-                                            <p class="card-text menus__card-descripcion">${menu.description}</p>
-                                            <p class="card-text menus__card-precio">${menu.price}</p>
-                                            <p class="card-text">${menu.categoryMenu.name}</p>
+                         <div class="card menus__card">
+                              <figure class="menus__card-figure">
+                                  <img class="card-img-top menus__card-img" src="/img/menus/${menu.urlPhoto}"/>
+                               </figure>
+                                <div class="card-body">
+                                    <span class="d-none" >${menu.id}</span>
+                                    <h5 class="card-title menus__card-title">${menu.name}</h5>
+                                    <p class="card-text menus__card-descripcion">${menu.description}</p>
+                                    <p class="card-text menus__card-precio"><span class="color-text-orange">S/ </span><span>${menu.price}.0</span></p>
 
+                                    <p class="card-text d-none" >${menu.categoryMenu.name} </p>
+
+                                </div>
+                                <div class="card-footer">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <button class="btn btn__MainOrange menu_btnAgregarCantidad" data-menuId="${menu.id}" onclick="menus_Operation(this.getAttribute('data-menuId'),'add')" >+</button>
                                         </div>
-                                        <div class="card-footer">
-                                            <div class="input-group">
-                                                <div class="input-group-prepend">
-                                                     <button class="btn btn-primary menu_btnAgregarCantidad"  th:data-menu="${menu}" th:onclick="agregarCantidad(this.getAttribute('data-menu'))">+</button>
-                                                </div>
-
-                                                <input type="text" name="agregarCantidad" class="form-control">
-
-                                                <div class="input-group-append">
-                                                    <button class="btn btn-danger">-</button>
-                                                </div>
-                                            </div>
+                                        <input type="text" name="agregarCantidad" id="${'menuAgregarCantidad_'+menu.id}" class="form-control" />
+                                        <div class="input-group-append">
+                                            <button class="btn btn__MainBlack menu_btnRestarCantidad" data-menuId="${menu.id}" onclick="menus_Operation(this.getAttribute('data-menuId'), 'subtract')"  >-</button>
                                         </div>
                                     </div>
+
                                 </div>
+
+                            </div>
+                        </div>
                 `
                 menus_container.innerHTML += cardMenu
 
             })
         }
-    */
+
 
 
 </script>
